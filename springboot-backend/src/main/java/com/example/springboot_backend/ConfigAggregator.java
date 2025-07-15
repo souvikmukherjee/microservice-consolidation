@@ -35,9 +35,11 @@ public class ConfigAggregator {
             } else if (file.getName().endsWith(".yml") || file.getName().endsWith(".yaml")) {
                 Yaml yaml = new Yaml();
                 try (InputStream input = new FileInputStream(file)) {
-                    Object data = yaml.load(input);
-                    if (data instanceof Map) {
-                        flattenYaml((Map<String, Object>) data, "", aggregatedConfig);
+                    Iterable<Object> docs = yaml.loadAll(input);
+                    for (Object data : docs) {
+                        if (data instanceof Map) {
+                            flattenYaml((Map<?, ?>) data, "", aggregatedConfig);
+                        }
                     }
                     logger.info("Loaded YAML from {}", file.getPath());
                 } catch (IOException e) {
@@ -62,14 +64,14 @@ public class ConfigAggregator {
     }
 
     // Helper to flatten nested YAML structures into dot-separated keys
-    private static void flattenYaml(Map<String, Object> map, String prefix, Map<String, Object> out) {
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            String key = prefix.isEmpty() ? entry.getKey() : prefix + "." + entry.getKey();
+    private static void flattenYaml(Map<?, ?> map, String prefix, Map<String, Object> out) {
+        for (Map.Entry<?, ?> entry : map.entrySet()) {
+            String key = prefix.isEmpty() ? entry.getKey().toString() : prefix + "." + entry.getKey().toString();
             Object value = entry.getValue();
             if (value instanceof Map) {
-                flattenYaml((Map<String, Object>) value, key, out);
+                flattenYaml((Map<?, ?>) value, key, out);
             } else {
-                out.put(key, value);
+                out.put(key, value == null ? null : value.toString());
             }
         }
     }
