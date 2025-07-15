@@ -1,0 +1,51 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dev-debug.log
+
+# Dependency directories
+node_modules/
+
+# Environment variables
+.env
+*.env
+# Ignore Python cache and virtualenvs
+__pycache__/
+.venv/
+.venvs*/
+# Ignore any other sensitive files
+secrets.*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS specific
+.DS_Store
+
+#project specific
+/.cursor/
+/.taskmaster/
+/git-integration/__pycache__/
+/microservices-consolidation/node_modules/
+/springboot-backend/target/
+/springboot-backend/.gradle/
+/springboot-backend/gradle/
+/springboot-backend/build/
+/springboot-backend/out/
+/springboot-backend/bin/
+/springboot-backend/classes/
+/springboot-backend/libs/
+/springboot-backend/src/main/resources/static/
+/springboot-backend/src/main/resources/templates/
+
+# Ignore the repos directory for downloaded/cloned repositories
+/repos/
