@@ -229,33 +229,33 @@ flowchart TD
     START([Java File Input]) --> READ[Read File Content]
     READ --> PARSE[Parse Annotations & Filename]
     
-    PARSE --> MAIN{@SpringBootApplication?}
+    PARSE --> MAIN{"SpringBootApplication annotation?"}
     MAIN -->|Yes| SKIP[Skip - Already Have Main]
-    MAIN -->|No| CTRL{@Controller or @RestController?}
+    MAIN -->|No| CTRL{"Controller or RestController annotation?"}
     
     CTRL -->|Yes| CONTROLLER[controller/ package]
-    CTRL -->|No| SERV{@Service or 'service' in name?}
+    CTRL -->|No| SERV{"Service annotation or 'service' in name?"}
     
     SERV -->|Yes| SERVICE[service/ package]
-    SERV -->|No| REPO{@Repository or 'dao' in name?}
+    SERV -->|No| REPO{"Repository annotation or 'dao' in name?"}
     
     REPO -->|Yes| REPOSITORY[repository/ package]
-    REPO -->|No| ENT{@Entity or 'model' in name?}
+    REPO -->|No| ENT{"Entity annotation or 'model' in name?"}
     
     ENT -->|Yes| MODEL[model/ package]
-    ENT -->|No| CONF{@Configuration or 'config' in name?}
+    ENT -->|No| CONF{"Configuration annotation or 'config' in name?"}
     
     CONF -->|Yes| CONFIG[config/ package]
-    CONF -->|No| DTO{'dto' or 'request' in name?}
+    CONF -->|No| DTO{"'dto' or 'request' in name?"}
     
     DTO -->|Yes| DTO_PKG[dto/ package]
-    DTO -->|No| EXC{'exception' or 'error' in name?}
+    DTO -->|No| EXC{"'exception' or 'error' in name?"}
     
     EXC -->|Yes| EXCEPTION[exception/ package]
-    EXC -->|No| UTIL{'util' or 'helper' in name?}
+    EXC -->|No| UTIL{"'util' or 'helper' in name?"}
     
     UTIL -->|Yes| UTILITY[util/ package]
-    UTIL -->|No| TEST{'test' in name?}
+    UTIL -->|No| TEST{"'test' in name?"}
     
     TEST -->|Yes| TEST_PKG[test/ package]
     TEST -->|No| OTHER[other/ package]
