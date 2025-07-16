@@ -49,3 +49,6 @@ secrets.*
 
 # Ignore the repos directory for downloaded/cloned repositories
 /repos/
+
+# Ignore consolidated-service directory (generated output)
+/consolidated-service/
