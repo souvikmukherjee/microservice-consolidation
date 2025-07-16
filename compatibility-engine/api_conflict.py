@@ -3,6 +3,7 @@ import json
 from typing import List, Dict, Optional
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
+from langchain_core.messages import SystemMessage, HumanMessage
 
 # Helper to load endpoints from analysis_result.json
 
@@ -26,18 +27,23 @@ def get_all_cross_service_pairs_all_methods(endpoints):
             ep1, ep2 = endpoints[i], endpoints[j]
             if ep1['service'] == ep2['service']:
                 continue
+            # Only pair endpoints with the same HTTP method
+            if ep1.get('httpMethod') != ep2.get('httpMethod'):
+                continue
             pairs.append((ep1, ep2))
     return pairs
 
 # Use LangChain + GPT-4o to reason about endpoint pairs
 
 def llm_reason_conflict(ep1, ep2, llm):
-    prompt = ChatPromptTemplate.from_messages([
-        ("system", "You are an expert API reviewer. Your job is to determine if two REST API endpoints are functionally equivalent or conflicting, even if their path parameters differ. Consider HTTP method, path, and context. Respond with 'Conflict', 'Equivalent', or 'No Conflict', and explain your reasoning."),
-        ("human", f"Endpoint 1: {ep1['httpMethod']} {ep1['path']} (Service: {ep1['service']}, Class: {ep1.get('className')}, Method: {ep1.get('methodName')})\n"
-                  f"Endpoint 2: {ep2['httpMethod']} {ep2['path']} (Service: {ep2['service']}, Class: {ep2.get('className')}, Method: {ep2.get('methodName')})")
-    ])
-    response = llm.invoke(prompt)
+    messages = [
+        SystemMessage(content="You are an expert API reviewer. Your job is to determine if two REST API endpoints are functionally equivalent or conflicting, even if their path parameters differ. Consider HTTP method, path, and context. Respond with 'Conflict', 'Equivalent', or 'No Conflict', and explain your reasoning."),
+        HumanMessage(content=(
+            f"Endpoint 1: {ep1['httpMethod']} {ep1['path']} (Service: {ep1['service']}, Class: {ep1.get('className')}, Method: {ep1.get('methodName')})\n"
+            f"Endpoint 2: {ep2['httpMethod']} {ep2['path']} (Service: {ep2['service']}, Class: {ep2.get('className')}, Method: {ep2.get('methodName')})"
+        ))
+    ]
+    response = llm.invoke(messages)
     return response.content
 
 def find_api_conflicts_semantic(repos_dir: str, output_path: Optional[str] = None) -> List[Dict]:
