@@ -1,6 +1,7 @@
 import typer
 from typing import Optional
 from api_conflict import find_api_conflicts_semantic
+from agent_orchestrator import orchestrate_dependency_conflict
 
 app = typer.Typer(help="Microservices Compatibility Analysis Engine")
 
@@ -8,7 +9,8 @@ def run_api_conflict(repos_dir: str, output: Optional[str] = None):
     find_api_conflicts_semantic(repos_dir, output)
 
 def run_dependency_conflict(repos_dir: str):
-    typer.echo(f"[dependency-conflict] Analyzing dependency version conflicts in {repos_dir} (placeholder)")
+    # Ignore repos_dir for now, use orchestrator's default
+    orchestrate_dependency_conflict()
 
 def run_springboot_version(repos_dir: str):
     typer.echo(f"[springboot-version] Checking Spring Boot version compatibility in {repos_dir} (placeholder)")

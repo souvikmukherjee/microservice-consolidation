@@ -4,6 +4,7 @@ import json
 import csv
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
+from dependency_conflict import find_dependency_conflicts_semantic
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 REPOS_DIR = os.path.join(PROJECT_ROOT, "repos")
@@ -19,30 +20,24 @@ def build_java_jar():
     print(f"JAR built at {JAR_PATH}")
 
 
-def discover_repos(repos_dir=REPOS_DIR):
-    return [
-        os.path.join(repos_dir, d)
-        for d in os.listdir(repos_dir)
-        if os.path.isdir(os.path.join(repos_dir, d))
-    ]
+def discover_repos():
+    # Return absolute paths to each repo in REPOS_DIR
+    return [os.path.join(REPOS_DIR, d) for d in os.listdir(REPOS_DIR) if os.path.isdir(os.path.join(REPOS_DIR, d))]
 
 
 def check_analysis_file(repo_path):
     return os.path.exists(os.path.join(repo_path, ANALYSIS_FILENAME))
 
 
-def run_java_analysis(repo_path):
-    # Pass repo_path as './repos/<name>' (with leading './')
-    rel_repo_path = os.path.relpath(repo_path, PROJECT_ROOT)
-    if not rel_repo_path.startswith("./"):  # ensure leading './'
-        rel_repo_path = f"./{rel_repo_path}"
-    cmd = [
-        "java", "-cp", JAR_PATH,
-        "com.example.springboot_backend.RepoAnalysisModule", rel_repo_path
+def run_java_analysis(repo_rel_path):
+    # Run the Java analysis subprocess from the PROJECT_ROOT directory
+    jar_path = os.path.join(PROJECT_ROOT, "springboot-backend/build/libs/springboot-backend-0.0.1-SNAPSHOT-all.jar")
+    java_cmd = [
+        "java", "-cp", jar_path, "com.example.springboot_backend.RepoAnalysisModule", repo_rel_path
     ]
-    print(f"Running Java analysis: {' '.join(cmd)}")
-    subprocess.run(cmd, check=True)
-    return f"Analysis complete for {rel_repo_path}"
+    print(f"Running Java analysis: {' '.join(java_cmd)} (cwd={PROJECT_ROOT})")
+    subprocess.run(java_cmd, cwd=PROJECT_ROOT)
+    return f"Analysis complete for {repo_rel_path}"
 
 
 def load_all_endpoints():
@@ -76,6 +71,54 @@ def llm_api_conflict(ep1, ep2, service_a, service_b, llm):
             f"Service A: {service_a}\nEndpoint 1: {ep1['httpMethod']} {ep1['path']} (Class: {ep1.get('className')}, Method: {ep1.get('methodName')})\n"
             f"Service B: {service_b}\nEndpoint 2: {ep2['httpMethod']} {ep2['path']} (Class: {ep2.get('className')}, Method: {ep2.get('methodName')})"
         ))
+    ]
+    response = llm.invoke(messages)
+    return response.content
+
+
+def load_all_dependencies():
+    """Load dependencies from all analysis_result.json files, grouped by service (repo name)."""
+    dependencies_by_service = {}
+    for repo in discover_repos():
+        analysis_path = os.path.join(repo, ANALYSIS_FILENAME)
+        if os.path.exists(analysis_path):
+            with open(analysis_path) as f:
+                data = json.load(f)
+                service = os.path.basename(repo)
+                dependencies_by_service[service] = data.get("dependencies", [])
+    return dependencies_by_service
+
+
+def aggregate_dependency_versions(dependencies_by_service):
+    """Aggregate all dependencies and their versions across services."""
+    dep_map = {}
+    for service, deps in dependencies_by_service.items():
+        for dep in deps:
+            name = dep.get("name")
+            version = dep.get("version")
+            if not name or not version:
+                continue
+            if name not in dep_map:
+                dep_map[name] = {}
+            if version not in dep_map[name]:
+                dep_map[name][version] = []
+            dep_map[name][version].append(service)
+    return dep_map
+
+
+def llm_dependency_conflict(dep_name, versions_services, llm):
+    versions = list(versions_services.keys())
+    services = {v: versions_services[v] for v in versions}
+    prompt = (
+        f"Dependency: {dep_name}\n"
+        f"Versions found: {', '.join(versions)}\n"
+        f"Service usage: " + ", ".join([f'{v}: {', '.join(services[v])}' for v in versions]) + "\n"
+        "Are there any conflicts or risks with these versions across services? What is the recommended resolution?\n"
+        "Respond with 'Conflict' or 'No Conflict', explain your reasoning, and provide a recommended action."
+    )
+    messages = [
+        SystemMessage(content="You are an expert Java dependency manager. Analyze dependency version conflicts across microservices."),
+        HumanMessage(content=prompt)
     ]
     response = llm.invoke(messages)
     return response.content
@@ -141,6 +184,37 @@ def orchestrate_analysis():
                 'llm_reasoning': r['llm_reasoning']
             })
     print("Results written to api_conflict_results.csv")
+
+
+def orchestrate_dependency_conflict():
+    # Build the Java analysis JAR and run analysis for all repos first
+    build_java_jar()
+    repos = discover_repos()
+    for repo in repos:
+        # Convert absolute repo path to relative path from PROJECT_ROOT and ensure leading './'
+        rel_repo_path = os.path.relpath(repo, PROJECT_ROOT)
+        if not rel_repo_path.startswith("./"):
+            rel_repo_path = f"./{rel_repo_path}"
+        run_java_analysis(rel_repo_path)
+    # Use the modular function to get results
+    results = find_dependency_conflicts_semantic(REPOS_DIR)
+    # Output to JSON
+    with open("dependency_conflict_results.json", "w") as f:
+        json.dump(results, f, indent=2)
+    print("Results written to dependency_conflict_results.json")
+    # Output to CSV
+    with open("dependency_conflict_results.csv", "w", newline='') as csvfile:
+        fieldnames = ['dependency', 'versions', 'services', 'llm_reasoning']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for r in results:
+            writer.writerow({
+                'dependency': r['dependency'],
+                'versions': ", ".join(r['versions']),
+                'services': json.dumps(r['services']),
+                'llm_reasoning': r['llm_reasoning']
+            })
+    print("Results written to dependency_conflict_results.csv")
 
 
 if __name__ == "__main__":
