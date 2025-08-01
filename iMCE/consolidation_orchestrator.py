@@ -72,13 +72,16 @@ def extract_service_summary(repo_dir):
 
 def run_compatibility_engine():
     print("[LOG] Running compatibility-engine CLI for API and dependency conflict analysis...")
+    # Use the compatibility-engine's virtual environment
+    python_path = "compatibility-engine/venv/bin/python"
+    
     # Run API conflict analysis
     subprocess.run([
-        "python", "compatibility-engine/compatibility_engine.py", "api-conflict", "repos", "--output=compatibility-engine/compatibility_results/api_conflict_results.json"
+        python_path, "compatibility-engine/compatibility_engine.py", "api-conflict", "repos", "--output=compatibility-engine/compatibility_results/api_conflict_results.json"
     ], check=True)
     # Run dependency conflict analysis
     subprocess.run([
-        "python", "compatibility-engine/compatibility_engine.py", "dependency-conflict", "repos"
+        python_path, "compatibility-engine/compatibility_engine.py", "dependency-conflict", "repos"
     ], check=True)
     print("[LOG] Compatibility-engine CLI runs complete.")
 

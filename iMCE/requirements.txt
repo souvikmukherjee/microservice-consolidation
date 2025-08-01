@@ -1,2 +1,4 @@
-langchain
-openai 
+langchain>=0.3.26
+langchain-openai>=0.3.28
+openai>=1.97.0
+requests>=2.32.4 
