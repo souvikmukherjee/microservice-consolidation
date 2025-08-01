@@ -102,30 +102,55 @@ gantt
 
 ```mermaid
 gitgraph
-    commit id: "Initial"
+    commit id: "Project Init"
     branch develop
-    commit id: "Dev Setup"
+    checkout develop
+    commit id: "Environment Setup"
     
     branch feature/team-a-user-service
-    commit id: "User API"
+    checkout feature/team-a-user-service
+    commit id: "User Auth API"
+    commit id: "User Profile API"
     commit id: "User Tests"
     
-    branch feature/team-b-order-service
-    commit id: "Order Logic"
-    commit id: "Order Tests"
+    checkout develop
+    branch feature/team-b-environment
+    checkout feature/team-b-environment
+    commit id: "CI/CD Pipeline"
+    commit id: "Infrastructure"
     
     checkout develop
     merge feature/team-a-user-service
+    commit id: "Sprint 1 Integration"
     
-    branch release/sprint-1
-    commit id: "Release Prep"
+    branch feature/team-a-order-service
+    checkout feature/team-a-order-service
+    commit id: "Order Management"
+    commit id: "Order Tests"
     
-    checkout main
-    merge release/sprint-1
-    tag: "v1.0.0"
+    branch feature/team-b-product-service
+    checkout feature/team-b-product-service
+    commit id: "Product Catalog"
+    commit id: "Product Tests"
     
     checkout develop
-    merge feature/team-b-order-service
+    merge feature/team-b-environment
+    merge feature/team-a-order-service
+    merge feature/team-b-product-service
+    commit id: "Sprint 2 Integration"
+    
+    branch release/sprint-2
+    checkout release/sprint-2
+    commit id: "Release Testing"
+    commit id: "Performance Tuning"
+    
+    checkout main
+    merge release/sprint-2
+    commit id: "Production v2.0.0"
+    
+    checkout develop
+    merge release/sprint-2
+    commit id: "Next Sprint Prep"
 ```
 
 ### 🌳 Branch Structure & Rules
