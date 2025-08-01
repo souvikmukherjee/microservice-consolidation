@@ -191,42 +191,46 @@ develop:
 
 #### 🔄 Sprint Integration Process
 
-```bash
-#!/bin/bash
-# scripts/team-integration-workflow.sh
-
-echo "🔄 === TEAM INTEGRATION WORKFLOW ==="
-
-# 🌿 Step 1: Create feature branch
-git checkout develop
-git pull origin develop
-git checkout -b feature/team-${TEAM_NAME}-${FEATURE_NAME}
-
-echo "✅ Feature branch created: feature/team-${TEAM_NAME}-${FEATURE_NAME}"
-
-# 🔧 Step 2: Daily sync (run each morning)
-git fetch origin
-git rebase origin/develop
-
-# ⚠️ Handle conflicts immediately
-if [ $? -ne 0 ]; then
-    echo "🚨 CONFLICT DETECTED - Resolve immediately!"
-    echo "📞 Contact Tech Lead if needed"
-    exit 1
-fi
-
-# 🧪 Step 3: Pre-push validation
-./gradlew clean test
-./gradlew checkstyleMain
-./gradlew pmdMain
-
-if [ $? -eq 0 ]; then
-    echo "✅ All checks passed - Ready to push"
-    git push origin feature/team-${TEAM_NAME}-${FEATURE_NAME}
-else
-    echo "❌ Quality checks failed - Fix before pushing"
-    exit 1
-fi
+```mermaid
+flowchart TD
+    A["🌿 Start Daily Work<br/>📅 9:00 AM"] --> B["📥 Checkout develop<br/>git checkout develop"]
+    B --> C["⬇️ Pull latest changes<br/>git pull origin develop"]
+    C --> D["🌿 Create/Switch to feature branch<br/>git checkout -b feature/team-X-feature"]
+    
+    D --> E["💻 Development Work<br/>👨‍💻 Code Implementation"]
+    E --> F["🔄 Daily Sync<br/>git fetch origin<br/>git rebase origin/develop"]
+    
+    F --> G{🤔 Conflicts<br/>Detected?}
+    G -->|❌ Yes| H["🚨 STOP - Resolve Conflicts"]
+    G -->|✅ No| I["🧪 Run Quality Checks"]
+    
+    H --> H1["📞 Contact Tech Lead if needed"]
+    H1 --> H2["🔧 Manual conflict resolution"]
+    H2 --> I
+    
+    I --> J["🧪 ./gradlew clean test"]
+    J --> K["🧪 ./gradlew checkstyleMain"]
+    K --> L["🧪 ./gradlew pmdMain"]
+    
+    L --> M{✅ All Tests<br/>Pass?}
+    M -->|❌ No| N["❌ Fix Quality Issues<br/>🔄 Return to Development"]
+    M -->|✅ Yes| O["🚀 Push to remote<br/>git push origin feature/team-X-feature"]
+    
+    N --> E
+    O --> P["📋 Create Pull Request<br/>🔍 Request Code Review"]
+    P --> Q["👥 Code Review Process<br/>🧪 Additional Testing"]
+    Q --> R["✅ Merge to develop<br/>🎉 Feature Complete"]
+    
+    F --> S["🔄 Continue next day"]
+    S --> F
+    
+    style A fill:#e1f5fe
+    style H fill:#ffebee
+    style N fill:#fff3e0
+    style O fill:#e8f5e8
+    style R fill:#e8f5e8
+    style G fill:#fff9c4
+    style M fill:#fff9c4
 ```
 
 ### 🛡️ Conflict Prevention Strategies
