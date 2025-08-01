@@ -22,13 +22,13 @@
 |-------------|-------------|---------------|
 | 🎯 | [Project Overview](#-project-overview) | Scope & Objectives |
 | 👥 | [Team Structure](#-team-structure) | Roles & Responsibilities |
-| 📅 | [Sprint Planning](#-sprint-planning) | Timeline & Milestones |
 | 🌿 | [Branching Strategy](#-branching-strategy) | Version Control |
 | 🚀 | [Release Strategy](#-release-strategy) | Deployment & Rollout |
 | ⚠️ | [RAID Analysis](#️-raid-analysis) | Risk Management |
 | 🔄 | [Conflict Resolution](#-conflict-resolution) | Process Management |
-| 📊 | [Gantt Chart](#-gantt-chart) | Visual Timeline |
-| 📋 | [Sprint Details](#-sprint-details) | Detailed Planning |
+| 📊 | [Gantt Chart & Sprint Planning](#-gantt-chart--sprint-planning) | Timeline & Detailed Planning |
+| 📈 | [Project Dashboard & Summary](#-project-dashboard--summary) | Metrics & Reporting |
+| 🎉 | [Conclusion](#-conclusion) | Project Success & Next Steps |
 
 ---
 
