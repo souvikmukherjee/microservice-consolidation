@@ -5,7 +5,7 @@
 
 ![Project Status](https://img.shields.io/badge/Status-Planning-yellow)
 ![Team Size](https://img.shields.io/badge/Team-6%20Engineers-blue)
-![Duration](https://img.shields.io/badge/Duration-10%20Sprints%20(20%20weeks)-green)
+![Duration](https://img.shields.io/badge/Duration-4%20Sprints%20(8%20weeks)-green)
 ![Methodology](https://img.shields.io/badge/Methodology-Agile%20Scrum-orange)
 
 </div>
@@ -38,7 +38,7 @@
 
 | 🎯 Component | 📊 Current State | 🚀 Target State |
 |--------------|------------------|-----------------|
-| **Services** | 3+ independent microservices | 1 unified Spring Boot application |
+| **Services** | 5 independent microservices | 1 unified Spring Boot application |
 | **Databases** | Multiple DB instances | Single PostgreSQL database |
 | **Teams** | 6 engineers across services | Unified development team |
 | **Deployment** | Separate deployment pipelines | Single CI/CD pipeline |
@@ -260,7 +260,7 @@ flowchart TD
 
 | 🎯 KPI | 📈 Target | 📊 Current | 🚦 Status | 📅 Update |
 |--------|-----------|------------|-----------|----------|
-| **Project Timeline** | 20 weeks | Sprint 1 | 🟢 On Track | Weekly |
+| **Project Timeline** | 8 weeks | Sprint 1 | 🟢 On Track | Weekly |
 | **Team Velocity** | 45 SP/sprint | TBD | ⚪ Pending | Sprint 2 |
 | **Budget Utilization** | 100% | 0% | 🟢 Good | Monthly |
 | **Risk Mitigation** | <5 open risks | 8 active | 🟡 Monitor | Weekly |
@@ -292,12 +292,10 @@ pie title Project Health Status
 
 | 🎯 Milestone | 📅 Target Date | 📊 Dependencies | 🚦 Status |
 |--------------|----------------|------------------|-----------|
-| **Environment Ready** | Week 2 | Infrastructure team | 🟢 Planned |
-| **User Service Live** | Week 6 | Database migration | 🟢 Planned |
-| **Database Consolidated** | Week 8 | All service analysis | 🟢 Planned |
-| **Full Integration** | Week 12 | Cross-team coordination | 🟡 Risk |
-| **Production Ready** | Week 18 | Performance validation | 🟡 Risk |
-| **Go-Live Complete** | Week 20 | Stakeholder approval | 🟢 Planned |
+| **User Service Live** | Week 2 | Database migration | 🟢 Planned |
+| **Core Services (Order + Product)** | Week 4 | User service foundation | 🟢 Planned |
+| **All 5 Services Integrated** | Week 6 | Cross-service dependencies | 🟡 Risk |
+| **Production Ready & Go-Live** | Week 8 | Performance validation | 🟡 Risk |
 
 ### 📞 Communication Plan
 
@@ -386,8 +384,8 @@ This comprehensive project management template provides a structured approach to
 |-----------------|-------------|----------------|
 | **Sprint Retrospectives** | Bi-weekly | Process improvements, team dynamics |
 | **Risk Reviews** | Weekly | Risk mitigation effectiveness |
-| **Stakeholder Feedback** | Monthly | Scope alignment, satisfaction |
-| **Technical Architecture** | Quarterly | Performance, scalability, maintainability |
+| **Stakeholder Feedback** | Weekly | Scope alignment, satisfaction |
+| **Technical Architecture** | Per Sprint | Performance, scalability, maintainability |
 
 ---
 
@@ -407,270 +405,218 @@ This comprehensive project management template provides a structured approach to
 
 ### 🎯 Project Timeline Overview
 
-> ⏱️ **Duration**: 20 weeks (10 sprints) | 👥 **Team**: 6 engineers | 💼 **Capacity**: 240 hours/week
+> ⏱️ **Duration**: 8 weeks (4 sprints) | 👥 **Team**: 6 engineers | 💼 **Capacity**: 240 hours/week
 
 ```mermaid
 gantt
-    title Microservice Consolidation Project Timeline
+    title 5-Service Consolidation Project (4 Sprints)
     dateFormat  YYYY-MM-DD
     axisFormat %m/%d
 
-    section Sprint 1-2 (Foundation)
-    S1: Environment Setup        :s1, 2024-01-01, 2w
-    S2: Analysis & Planning      :s2, after s1, 2w
+    section Sprint 1 (Foundation)
+    Setup & User Service         :s1, 2024-01-01, 2w
     
-    section Sprint 3-4 (Core Development)
-    S3: User Service Migration   :s3, after s2, 2w
-    S4: Database Consolidation   :s4, after s3, 2w
+    section Sprint 2 (Core Services)
+    Order & Product Services     :s2, after s1, 2w
     
-    section Sprint 5-6 (Service Integration)
-    S5: Order Service Migration  :s5, after s4, 2w
-    S6: API Integration         :s6, after s5, 2w
+    section Sprint 3 (Final Services)
+    Inventory & Payment Services :s3, after s2, 2w
     
-    section Sprint 7-8 (Testing & Validation)
-    S7: Integration Testing     :s7, after s6, 2w
-    S8: Performance Testing     :s8, after s7, 2w
-    
-    section Sprint 9-10 (Deployment)
-    S9: Production Preparation  :s9, after s8, 2w
-    S10: Go-Live & Hypercare   :s10, after s9, 2w
+    section Sprint 4 (Integration)
+    Testing & Production         :s4, after s3, 2w
+```
+
+### 👥 Engineer Assignment Gantt Chart
+
+```mermaid
+gantt
+    title Engineer Assignments Across 4 Sprints
+    dateFormat  YYYY-MM-DD
+    axisFormat %m/%d
+
+    section Tech Lead
+    Project Setup & Architecture    :tl1, 2024-01-01, 2w
+    Service Integration & Review    :tl2, after tl1, 2w
+    System Integration & Testing    :tl3, after tl2, 2w
+    Production Deployment           :tl4, after tl3, 2w
+
+    section Backend Engineer A
+    User Service Migration          :be1, 2024-01-01, 2w
+    Order Service Migration         :be2, after be1, 2w
+    Inventory Service Migration     :be3, after be2, 2w
+    Integration Testing             :be4, after be3, 2w
+
+    section Backend Engineer B
+    Environment & CI/CD Setup       :bb1, 2024-01-01, 2w
+    Product Service Migration       :bb2, after bb1, 2w
+    Payment Service Migration       :bb3, after bb2, 2w
+    Performance Testing             :bb4, after bb3, 2w
+
+    section Database Engineer
+    Schema Analysis & Design        :db1, 2024-01-01, 2w
+    Database Consolidation          :db2, after db1, 2w
+    Data Migration & Optimization   :db3, after db2, 2w
+    Production DB Setup             :db4, after db3, 2w
+
+    section QA Engineer
+    Test Framework Setup            :qa1, 2024-01-01, 2w
+    Service Testing & Validation    :qa2, after qa1, 2w
+    Integration Test Automation     :qa3, after qa2, 2w
+    End-to-End Testing              :qa4, after qa3, 2w
+
+    section DevOps Engineer
+    Infrastructure & Monitoring     :do1, 2024-01-01, 2w
+    CI/CD Pipeline Enhancement      :do2, after do1, 2w
+    Security & Performance Setup    :do3, after do2, 2w
+    Production Deployment           :do4, after do3, 2w
 ```
 
 ### 📋 Sprint Details & Resource Allocation
 
-#### 🚀 Sprint 1: Foundation & Environment Setup
+#### 🚀 Sprint 1: Foundation & User Service
 
 | 📊 Sprint Info | 🎯 Details |
 |----------------|-------------|
 | **Duration** | Weeks 1-2 (2024-01-01 to 2024-01-14) |
-| **Sprint Goal** | 🏗️ Establish development environment and team foundation |
+| **Sprint Goal** | 🏗️ Setup environment + migrate first service (User Management) |
+| **Services** | **User Service** (Authentication, User Management) |
 | **Capacity** | 480 hours (6 engineers × 80 hours) |
+
+**👥 Engineer Assignments**
+
+| 👤 Engineer | 🎯 Primary Tasks | ⏱️ Hours | 📊 Deliverables |
+|-------------|------------------|----------|----------------|
+| **🚀 Tech Lead** | Project architecture, User service design | 80h | Architecture docs, User API design |
+| **🔧 Backend Engineer A** | User service migration & implementation | 80h | User entities, repositories, services |
+| **🔧 Backend Engineer B** | Environment setup, CI/CD pipeline | 80h | Development environment, build pipeline |
+| **🗄️ Database Engineer** | Schema analysis, User DB migration | 80h | User tables, migration scripts |
+| **🧪 QA Engineer** | Test framework, User service tests | 80h | Test automation, User service validation |
+| **☁️ DevOps Engineer** | Infrastructure setup, monitoring | 80h | Dev/staging environments, monitoring |
 
 **📋 Sprint 1 Backlog**
 
 | 🎯 Story | 👥 Owner | ⏱️ Effort | 📊 Story Points | 🎯 Priority |
 |----------|----------|-----------|----------------|-------------|
-| **Setup consolidated project structure** | Tech Lead | 16h | 8 | High |
-| **Configure CI/CD pipeline** | DevOps Engineer | 32h | 13 | High |
-| **Database environment setup** | DB Engineer | 24h | 8 | High |
-| **Team onboarding & knowledge transfer** | All Teams | 40h | 21 | High |
-| **Development tooling setup** | Backend Engineers | 24h | 8 | Medium |
-| **Quality gates configuration** | QA Engineer | 20h | 8 | Medium |
+| **User Service - Authentication & Authorization** | Backend Engineer A | 32h | 21 | High |
+| **User Service - Profile Management APIs** | Backend Engineer A | 24h | 13 | High |
+| **User Database Schema & Migration** | DB Engineer | 24h | 13 | High |
+| **CI/CD Pipeline Setup** | Backend Engineer B | 32h | 21 | High |
+| **Test Framework & User Service Tests** | QA Engineer | 24h | 13 | High |
+| **Development Environment Setup** | DevOps Engineer | 20h | 8 | High |
 
-**📈 Sprint 1 Capacity Planning**
-
-```mermaid
-pie title Sprint 1 Effort Distribution
-    "Environment Setup" : 35
-    "Tooling & CI/CD" : 25
-    "Knowledge Transfer" : 25
-    "Buffer & Risk" : 15
-```
-
-#### 🔍 Sprint 2: Analysis & Compatibility Assessment
+#### 🛒 Sprint 2: Core Business Services
 
 | 📊 Sprint Info | 🎯 Details |
 |----------------|-------------|
 | **Duration** | Weeks 3-4 (2024-01-15 to 2024-01-28) |
-| **Sprint Goal** | 📊 Complete service analysis and create detailed migration plan |
+| **Sprint Goal** | 📦 Migrate core business services (Order + Product) |
+| **Services** | **Order Service** + **Product Service** |
 | **Capacity** | 480 hours (6 engineers × 80 hours) |
+
+**👥 Engineer Assignments**
+
+| 👤 Engineer | 🎯 Primary Tasks | ⏱️ Hours | 📊 Deliverables |
+|-------------|------------------|----------|----------------|
+| **🚀 Tech Lead** | Service integration, API contracts | 80h | Integration design, API documentation |
+| **🔧 Backend Engineer A** | Order service migration | 80h | Order management, business logic |
+| **🔧 Backend Engineer B** | Product service migration | 80h | Product catalog, inventory APIs |
+| **🗄️ Database Engineer** | Order & Product DB consolidation | 80h | Consolidated schema, relationships |
+| **🧪 QA Engineer** | Order & Product service testing | 80h | Integration tests, API validation |
+| **☁️ DevOps Engineer** | Pipeline enhancement, security | 80h | Enhanced CI/CD, security scanning |
 
 **📋 Sprint 2 Backlog**
 
 | 🎯 Story | 👥 Owner | ⏱️ Effort | 📊 Story Points | 🎯 Priority |
 |----------|----------|-----------|----------------|-------------|
-| **API compatibility analysis** | Backend Teams | 40h | 21 | High |
-| **Database schema mapping** | DB Engineer | 32h | 13 | High |
-| **Dependency conflict resolution** | Tech Lead | 24h | 13 | High |
-| **Performance baseline establishment** | QA Engineer | 32h | 13 | High |
-| **Migration strategy documentation** | All Teams | 24h | 8 | Medium |
-| **Risk assessment & mitigation planning** | Tech Lead | 16h | 8 | Medium |
+| **Order Service - Order Management APIs** | Backend Engineer A | 32h | 21 | High |
+| **Product Service - Catalog & Inventory APIs** | Backend Engineer B | 32h | 21 | High |
+| **Order-Product Database Integration** | DB Engineer | 28h | 13 | High |
+| **Cross-Service Integration Testing** | QA Engineer | 32h | 21 | High |
+| **API Contract Validation** | Tech Lead | 24h | 13 | High |
+| **Security & Performance Optimization** | DevOps Engineer | 24h | 8 | Medium |
 
-#### 🔧 Sprint 3: User Service Migration
+#### 💰 Sprint 3: Final Services
 
 | 📊 Sprint Info | 🎯 Details |
 |----------------|-------------|
 | **Duration** | Weeks 5-6 (2024-01-29 to 2024-02-11) |
-| **Sprint Goal** | 👤 Migrate and consolidate user management functionality |
+| **Sprint Goal** | 📊 Complete service migration (Inventory + Payment) |
+| **Services** | **Inventory Service** + **Payment Service** |
 | **Capacity** | 480 hours (6 engineers × 80 hours) |
+
+**👥 Engineer Assignments**
+
+| 👤 Engineer | 🎯 Primary Tasks | ⏱️ Hours | 📊 Deliverables |
+|-------------|------------------|----------|----------------|
+| **🚀 Tech Lead** | System integration, architecture review | 80h | Complete system design, integration validation |
+| **🔧 Backend Engineer A** | Inventory service migration | 80h | Stock management, warehouse APIs |
+| **🔧 Backend Engineer B** | Payment service migration | 80h | Payment processing, transaction APIs |
+| **🗄️ Database Engineer** | Final DB optimization & migration | 80h | Complete consolidated schema |
+| **🧪 QA Engineer** | Comprehensive integration testing | 80h | End-to-end test automation |
+| **☁️ DevOps Engineer** | Performance tuning, security hardening | 80h | Production-ready infrastructure |
 
 **📋 Sprint 3 Backlog**
 
 | 🎯 Story | 👥 Owner | ⏱️ Effort | 📊 Story Points | 🎯 Priority |
 |----------|----------|-----------|----------------|-------------|
-| **User entity & repository migration** | Backend Team A | 32h | 13 | High |
-| **User service business logic** | Backend Team A | 40h | 21 | High |
-| **User API endpoints implementation** | Backend Team A | 32h | 13 | High |
-| **User service unit tests** | QA Engineer | 24h | 8 | High |
-| **Database migration scripts** | DB Engineer | 24h | 8 | Medium |
-| **API documentation** | Backend Team A | 16h | 5 | Medium |
+| **Inventory Service - Stock Management APIs** | Backend Engineer A | 32h | 21 | High |
+| **Payment Service - Transaction Processing** | Backend Engineer B | 32h | 21 | High |
+| **Complete Database Schema Integration** | DB Engineer | 32h | 21 | High |
+| **End-to-End Integration Testing** | QA Engineer | 32h | 21 | High |
+| **System Performance Optimization** | Tech Lead | 24h | 13 | High |
+| **Production Infrastructure Preparation** | DevOps Engineer | 24h | 13 | Medium |
 
-#### 🗄️ Sprint 4: Database Consolidation
+#### 🚀 Sprint 4: Integration & Production
 
 | 📊 Sprint Info | 🎯 Details |
 |----------------|-------------|
 | **Duration** | Weeks 7-8 (2024-02-12 to 2024-02-25) |
-| **Sprint Goal** | 🔄 Consolidate all databases into unified schema |
+| **Sprint Goal** | 🎯 Final integration, testing, and production deployment |
+| **Focus** | **System Integration + Production Deployment** |
 | **Capacity** | 480 hours (6 engineers × 80 hours) |
+
+**👥 Engineer Assignments**
+
+| 👤 Engineer | 🎯 Primary Tasks | ⏱️ Hours | 📊 Deliverables |
+|-------------|------------------|----------|----------------|
+| **🚀 Tech Lead** | Production deployment, system validation | 80h | Production deployment, go-live coordination |
+| **🔧 Backend Engineer A** | Integration testing, bug fixes | 80h | System integration validation |
+| **🔧 Backend Engineer B** | Performance testing, optimization | 80h | Performance benchmarks, optimizations |
+| **🗄️ Database Engineer** | Production DB setup, data migration | 80h | Production database, live data migration |
+| **🧪 QA Engineer** | Comprehensive testing, user acceptance | 80h | Full system validation, UAT |
+| **☁️ DevOps Engineer** | Production deployment, monitoring | 80h | Live deployment, monitoring setup |
 
 **📋 Sprint 4 Backlog**
 
 | 🎯 Story | 👥 Owner | ⏱️ Effort | 📊 Story Points | 🎯 Priority |
 |----------|----------|-----------|----------------|-------------|
-| **Schema consolidation & migration** | DB Engineer | 40h | 21 | High |
-| **Data migration scripts** | DB Engineer + Backend | 48h | 21 | High |
-| **Database performance optimization** | DB Engineer | 32h | 13 | High |
-| **Cross-service relationship mapping** | All Teams | 32h | 13 | Medium |
-| **Database integration testing** | QA Engineer | 24h | 8 | Medium |
-| **Rollback procedures** | DB Engineer | 16h | 5 | Medium |
+| **Production Database Migration** | DB Engineer | 32h | 21 | High |
+| **Production Deployment & Go-Live** | Tech Lead + DevOps | 32h | 21 | High |
+| **Comprehensive System Testing** | QA Engineer | 32h | 21 | High |
+| **Performance Validation & Tuning** | Backend Engineer B | 24h | 13 | High |
+| **Integration Bug Fixes** | Backend Engineer A | 24h | 13 | High |
+| **Production Monitoring & Alerting** | DevOps Engineer | 24h | 13 | Medium |
 
-#### 🛒 Sprint 5: Order Service Migration
+### 📊 5-Service Migration Overview
 
-| 📊 Sprint Info | 🎯 Details |
-|----------------|-------------|
-| **Duration** | Weeks 9-10 (2024-02-26 to 2024-03-10) |
-| **Sprint Goal** | 📦 Migrate order processing with cross-service integration |
-| **Capacity** | 480 hours (6 engineers × 80 hours) |
+#### 🎯 Services to Consolidate
 
-**📋 Sprint 5 Backlog**
+| 🏷️ Service | 📊 Current State | 🎯 Target Sprint | 👥 Lead Engineer |
+|-------------|------------------|------------------|------------------|
+| **User Service** | Spring Boot 2.7 + MySQL | Sprint 1 | Backend Engineer A |
+| **Order Service** | Spring Boot 3.0 + PostgreSQL | Sprint 2 | Backend Engineer A |
+| **Product Service** | Spring Boot 2.6 + MySQL | Sprint 2 | Backend Engineer B |
+| **Inventory Service** | Node.js + MongoDB | Sprint 3 | Backend Engineer A |
+| **Payment Service** | Spring Boot 2.5 + MySQL | Sprint 3 | Backend Engineer B |
 
-| 🎯 Story | 👥 Owner | ⏱️ Effort | 📊 Story Points | 🎯 Priority |
-|----------|----------|-----------|----------------|-------------|
-| **Order entity & service implementation** | Backend Team B | 40h | 21 | High |
-| **Order-User-Product integration** | Backend Teams | 48h | 21 | High |
-| **Order processing business logic** | Backend Team B | 32h | 13 | High |
-| **Order API endpoints** | Backend Team B | 24h | 8 | Medium |
-| **Order service testing** | QA Engineer | 24h | 8 | Medium |
-| **Integration validation** | All Teams | 16h | 5 | Medium |
-
-#### 🔗 Sprint 6: API Integration & Validation
-
-| 📊 Sprint Info | 🎯 Details |
-|----------------|-------------|
-| **Duration** | Weeks 11-12 (2024-03-11 to 2024-03-24) |
-| **Sprint Goal** | 🌐 Complete API consolidation and cross-service communication |
-| **Capacity** | 480 hours (6 engineers × 80 hours) |
-
-**📋 Sprint 6 Backlog**
-
-| 🎯 Story | 👥 Owner | ⏱️ Effort | 📊 Story Points | 🎯 Priority |
-|----------|----------|-----------|----------------|-------------|
-| **API contract validation** | Tech Lead | 32h | 13 | High |
-| **Cross-service integration testing** | QA Engineer | 40h | 21 | High |
-| **API security implementation** | Backend Teams | 32h | 13 | High |
-| **Error handling & validation** | Backend Teams | 32h | 13 | Medium |
-| **API documentation completion** | All Teams | 24h | 8 | Medium |
-| **Performance optimization** | Tech Lead | 16h | 5 | Low |
-
-#### 🧪 Sprint 7: Integration Testing
-
-| 📊 Sprint Info | 🎯 Details |
-|----------------|-------------|
-| **Duration** | Weeks 13-14 (2024-03-25 to 2024-04-07) |
-| **Sprint Goal** | ✅ Comprehensive system testing and validation |
-| **Capacity** | 480 hours (6 engineers × 80 hours) |
-
-**📋 Sprint 7 Backlog**
-
-| 🎯 Story | 👥 Owner | ⏱️ Effort | 📊 Story Points | 🎯 Priority |
-|----------|----------|-----------|----------------|-------------|
-| **End-to-end testing suite** | QA Engineer | 48h | 21 | High |
-| **Integration test automation** | QA Engineer + Backend | 40h | 21 | High |
-| **Data integrity validation** | DB Engineer | 32h | 13 | High |
-| **Security testing** | All Teams | 24h | 8 | Medium |
-| **Bug fixes & optimization** | Backend Teams | 32h | 13 | Medium |
-| **Test documentation** | QA Engineer | 16h | 5 | Low |
-
-#### ⚡ Sprint 8: Performance Testing & Optimization
-
-| 📊 Sprint Info | 🎯 Details |
-|----------------|-------------|
-| **Duration** | Weeks 15-16 (2024-04-08 to 2024-04-21) |
-| **Sprint Goal** | 🚀 Ensure production-ready performance and scalability |
-| **Capacity** | 480 hours (6 engineers × 80 hours) |
-
-**📋 Sprint 8 Backlog**
-
-| 🎯 Story | 👥 Owner | ⏱️ Effort | 📊 Story Points | 🎯 Priority |
-|----------|----------|-----------|----------------|-------------|
-| **Load testing implementation** | QA Engineer | 40h | 21 | High |
-| **Performance baseline validation** | QA Engineer + Tech Lead | 32h | 13 | High |
-| **Database query optimization** | DB Engineer | 32h | 13 | High |
-| **Application performance tuning** | Backend Teams | 40h | 21 | Medium |
-| **Monitoring & alerting setup** | DevOps Engineer | 24h | 8 | Medium |
-| **Capacity planning** | Tech Lead | 16h | 5 | Low |
-
-#### 🚀 Sprint 9: Production Preparation
-
-| 📊 Sprint Info | 🎯 Details |
-|----------------|-------------|
-| **Duration** | Weeks 17-18 (2024-04-22 to 2024-05-05) |
-| **Sprint Goal** | 🎯 Final preparation for production deployment |
-| **Capacity** | 480 hours (6 engineers × 80 hours) |
-
-**📋 Sprint 9 Backlog**
-
-| 🎯 Story | 👥 Owner | ⏱️ Effort | 📊 Story Points | 🎯 Priority |
-|----------|----------|-----------|----------------|-------------|
-| **Production environment setup** | DevOps Engineer | 40h | 21 | High |
-| **Deployment automation** | DevOps Engineer | 32h | 13 | High |
-| **Rollback procedures validation** | All Teams | 32h | 13 | High |
-| **Security hardening** | Backend Teams | 24h | 8 | High |
-| **Documentation finalization** | All Teams | 32h | 13 | Medium |
-| **Team training & handover** | Tech Lead | 24h | 8 | Medium |
-
-#### 🎉 Sprint 10: Go-Live & Hypercare
-
-| 📊 Sprint Info | 🎯 Details |
-|----------------|-------------|
-| **Duration** | Weeks 19-20 (2024-05-06 to 2024-05-19) |
-| **Sprint Goal** | 🚀 Successful production deployment and stabilization |
-| **Capacity** | 480 hours (6 engineers × 80 hours) |
-
-**📋 Sprint 10 Backlog**
-
-| 🎯 Story | 👥 Owner | ⏱️ Effort | 📊 Story Points | 🎯 Priority |
-|----------|----------|-----------|----------------|-------------|
-| **Production deployment** | DevOps + Tech Lead | 32h | 13 | High |
-| **Hypercare monitoring** | All Teams | 80h | 34 | High |
-| **Issue resolution & hotfixes** | Backend Teams | 48h | 21 | High |
-| **Performance monitoring** | QA Engineer | 32h | 13 | Medium |
-| **User acceptance validation** | All Teams | 24h | 8 | Medium |
-| **Project retrospective** | All Teams | 16h | 5 | Low |
-
-### 📊 Resource Allocation Summary
-
-#### 👥 Team Utilization Across Sprints
+### 📈 Resource Utilization Chart
 
 ```mermaid
-gantt
-    title Team Resource Allocation (Hours per Sprint)
-    dateFormat  X
-    axisFormat %s
-
-    section Tech Lead
-    Sprint 1-5    :0, 200
-    Sprint 6-10   :200, 200
-    
-    section Backend Team A
-    Sprint 1-3    :0, 150
-    Sprint 4-10   :150, 280
-    
-    section Backend Team B
-    Sprint 1-4    :0, 120
-    Sprint 5-10   :120, 240
-    
-    section DB Engineer
-    Sprint 1-4    :0, 200
-    Sprint 5-10   :200, 160
-    
-    section QA Engineer
-    Sprint 1-6    :0, 160
-    Sprint 7-10   :160, 240
-    
-    section DevOps Engineer
-    Sprint 1-2    :0, 160
-    Sprint 8-10   :160, 200
+pie title 4-Sprint Resource Distribution
+    "Sprint 1 (Foundation + User)" : 25
+    "Sprint 2 (Order + Product)" : 25
+    "Sprint 3 (Inventory + Payment)" : 25
+    "Sprint 4 (Integration + Production)" : 25
 ```
 
 ---
